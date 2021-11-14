@@ -59,16 +59,8 @@ jobs:
     steps:
       - run: apk add --update curl
       - run:
-          name: smoke test
-          command: |
-            URL="https://blog.udacity.com/"
-            # Test if website exists
-            if curl -s --head ${URL} 
-            then
-              return 0
-            else
-              return 1
-            fi
+          name: Test job
+          command: return 1
       - destroy_environment
 
 
@@ -79,5 +71,7 @@ workflows:
     jobs:
       - create_infrastructure
       # - configure_infrastructure
-      - smoke_test
+      - smoke_test:
+          requires:
+            - create_infrastructure
 
